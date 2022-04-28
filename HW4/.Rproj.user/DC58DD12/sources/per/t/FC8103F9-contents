@@ -1,0 +1,19 @@
+getwd()
+setwd("C:/Users/p0952/Desktop")
+AAPL<-read.csv("AAPL.csv",header=T)$Close
+?sample
+sample<-sample(APPL,50)
+sample
+return_rate<-function(k){
+  return (AAPL[k+1]-AAPL[k])/AAPL[k]
+}
+index<-match(AAPL,sample,incomparables = T)
+index[!is.na(index)]
+?sapply
+return<-sapply(index, return_rate)
+return
+return<-return[!is.na(return)]
+r_mean<-mean(return)       
+r_var<-var(return)
+r_mean
+r_var

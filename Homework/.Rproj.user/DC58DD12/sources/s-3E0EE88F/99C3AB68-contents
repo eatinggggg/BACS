@@ -1,0 +1,14 @@
+R.version
+packageVersion("swirl")
+library(swirl)
+install.packages("rlang", dependencies = c("Depends", "Imports", "LinkingTo", "Suggests"))
+install.packages("testthat")
+ls()
+rm(list=ls())
+swirl()
+Eating
+install_from_swirl("R Programming")
+
+install.paskages("swirl")
+.libPath()
+

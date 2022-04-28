@@ -1,0 +1,31 @@
+
+#2
+#2-a-i
+data<-read.csv("verizon.csv")$Time
+data
+hyp_mean<-7.6
+?t.test
+t.test(data,mu=hyp_mean,alternative="less",conf.level=0.99)
+#2-a-ii
+?power.t.test
+power.t.test(n=length(data),delta=mean(data)-hyp_mean,sd=sd(data),sig.level = 0.01,alternative ="one.sided")
+#2-b-i
+
+#2-b-ii
+bootstrap_null_alt<-function(sample0,hyp_mean){
+  resample<-sample(sample0,length(sample0),replace = T)
+  resample_se<-sd(resample)/length(resample)
+  alt<-(mean(resample)-hyp_mean)/resample_se
+  null<-(mean(resample)-mean(sample0))
+  c(alt,null)
+}
+bootstrap_data<-replicate(15000,bootstrap_null_alt(data,hyp_mean))
+t_alt<-bootstrap_data[1,]
+t_null<-bootstrap_data[2,]
+cutoff_99<-quantile(t_null,probs=c(0.005,0.995))
+cutoff_99
+plot(density(t_alt))
+lines(density(t_null),lty="dashed")
+p_val<-pt()
+power<-pt()
+?ecdf

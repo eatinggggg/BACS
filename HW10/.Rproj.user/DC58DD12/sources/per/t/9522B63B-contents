@@ -1,0 +1,42 @@
+#Q2-a
+sal<-read.csv("programmer_salaries.txt", sep="\t")
+reg<-lm(Salary~Experience+Score+Degree,data = sal)
+summary(reg)
+reg$residuals
+reg$fitted.values
+#2-b-i
+salx<-data.matrix(sal[,1:3])
+salx
+dim(salx)
+salx<-cbind(c(1),salx)
+colnames(salx)[1]<-"intercept"
+salx
+#2-b-ii
+saly<-sal$Salary
+#2-b-iii
+beta_h<-(solve(t(salx)%*%salx))%*%t(salx)%*%saly
+beta_h
+#2-b-iv  
+saly_h<-salx%*%beta_h  
+saly_h  
+#2-b-v
+SST<-sum((saly-mean(saly))^2)
+SSR<-sum((saly_h-mean(saly))^2)
+SSE<-sum((saly-saly_h)^2)
+data.frame(SST,SSR,SSE)  
+#2-c-i
+R_square_1<-SSR/SST
+R_square_1
+#2-c-ii
+R_square_2<-cor(saly,saly_h)
+R_square_2
+#3-a-i
+auto <- read.table("auto-data.txt", header=FALSE, na.strings = "?")
+names(auto) <- c("mpg", "cylinders", "displacement", "horsepower", "weight", 
+                 "acceleration", "model_year", "origin", "car_name")
+auto
+plot(auto)
+#3-a-ii
+outer(auto[,], auto[,], cor())
+cor(auto["mpg", "cylinders", "displacement", "horsepower", "weight", "acceleration", "model_year", "origin"],auto$mpg,use = "pairwise.complete.obs")
+

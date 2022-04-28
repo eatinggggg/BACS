@@ -1,0 +1,20 @@
+#P6.5
+x<-rlnorm(100, meanlog = 0, sdlog = 1/2)
+
+f<-function(n){
+  x<-rlnorm(n, meanlog = 0, sdlog = 1/2)
+  mean(x)
+}
+fn<-sapply(c(1:100),f)
+plot(x,col=c("red"),cex=0.4,pch=1,main="blue:f ; red: x")
+points(fn, col="blue",cex=0.4)
+abline(h=mean(x),col=10,lty="dashed")
+
+
+#P6.6
+#df1=5,df2=2
+x<-rf(100, df1=3, df2=8)
+plot(density(x))
+sd(x)
+mean(x)
+

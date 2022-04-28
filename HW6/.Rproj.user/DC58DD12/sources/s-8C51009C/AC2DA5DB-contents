@@ -1,0 +1,56 @@
+#Q1
+#1-(b)
+#install.packages("reshape2")
+library(reshape2)
+verizon<-read.csv("verizon_wide.csv")
+verizon
+verizon_long<-melt(verizon,na.rm=TRUE,variable.name = "company",value.name ="response_time")
+verizon_long
+#is.na(verizon_long)
+#1-(c)
+head(verizon_long)
+tail(verizon_long)
+#1-(d)
+verizon_sep<-split(verizon_long,f=verizon_long$company)
+verizon_sep
+plot(density(verizon_sep$ILEC$response_time),col="blue",lwd=2,xlim=c(0,200))
+lines(density(verizon_sep$CLEC$response_time),col="red",lwd=2)
+legend(x=110,y=0.12,legend=c("alentus","hostmonster"),col=c("blue","red"),lty=1)
+
+#2-(a)
+#null-hypothesis:the mean response time for ILEC and CLEC customers are the same same
+#2-(b)
+t.test(verizon_sep$ILEC$response_time,verizon_sep$CLEC$response_time,alt="greater",var.equal=TRUE)
+t.test(verizon_sep$ILEC$response_time,verizon_sep$CLEC$response_time,alt="greater",var.equal=FALSE)
+#2-(c)-(i)
+observed_diff<-mean(verizon_sep$ILEC$response_time)-mean(verizon_sep$CLEC$response_time)
+observed_diff
+permute_diff<-function(value,group){
+  permuted<-sample(value,replace = FALSE)
+  grouped<-split(permuted,group)
+  permute_diff<-mean(grouped$ILEC)-mean(grouped$CLEC)
+}
+permuted_diffs<-replicate(10000,permute_diff(verizon_long$response_time,verizon_long$company))
+hist(permuted_diffs,probability = TRUE,breaks = "fd",xlim=c(-20,10))
+lines(density(permuted_diffs),lwd=1.5)
+abline(v=observed_diff,col="blue",lwd=1.5)
+#2-(c)-(ii)
+p_onetail<-sum(permuted_diffs>observed_diff)/10000
+p_twotail<-sum(abs(permuted_diffs)>observed_diff)/10000
+p_onetail
+p_twotail
+#2-(c)-iii
+
+#no
+
+#3
+
+
+
+my_vector<-1:20
+dim(my_vector)<-c(4,5)
+my_matrix<-my_vector
+
+cnames<-c("patient", "age","weight", "bp", "rating")
+colnames(my_matrix)<-cnames
+my_matrix
